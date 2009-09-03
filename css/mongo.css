@@ -1,0 +1,53 @@
+body {
+  font-family: Monaco, serif;
+  font-size: 20px;
+}
+
+#header {
+  width: 960px;
+  margin:50px auto 50px auto;
+  font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif;
+}
+
+#terminal {
+  width: 960px;
+  margin:50px auto 50px auto;
+  border: 1px solid black;
+  height: 400px;
+  background: black;
+  overflow: scroll;
+}
+
+#terminal div.line {
+  width: 940px;
+  margin-bottom: 5px;
+}
+
+#terminal input {
+  width: 875px;
+  margin: 1px 0 1px 10px;
+  border: none;
+  display: inline;
+  padding: 2px;
+  background: black;
+  color: #45FF17;
+  font-size: 18px;
+  font-family: Monaco, serif;
+}
+
+#terminal p, #terminal pre {
+  margin: 2px;
+  color: #45FF17;
+  font-size: 18px;
+  font-family: Monaco, serif;
+}
+
+#terminal a {
+  color: #6495ED;
+}
+
+#terminal span.prompt {
+  color: #45FF17;
+  font-size: 16px;
+  margin-left: 2px;
+}
