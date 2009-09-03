@@ -14,7 +14,7 @@ Array.prototype.include = function(value) {
     }
   }
   return false;
-}
+};
 
 Function.prototype.bind = function() {
   var __method = this, object = arguments[0], args = [];
@@ -30,7 +30,7 @@ Function.prototype.bind = function() {
 
 String.prototype.trim = function() {
   return this.replace(/^\s+|\s+$/g,"");
-}
+};
 
 // Prints javascript types as readable strings.
 Inspect = function(obj) {
@@ -38,11 +38,11 @@ Inspect = function(obj) {
     return obj;
   }
 
-  else if ((obj instanceof Array) || (obj instanceof DBCollection)) {
+  else if (obj instanceof Array) {
     var objRep = [];
-    for(p in obj) { 
-      if(obj.hasOwnProperty(p)) {
-        objRep.push(obj[p]); 
+    for(var prop in obj) { 
+      if(obj.hasOwnProperty(prop)) {
+        objRep.push(obj[prop]); 
       }
     }
     return '[' + objRep.join(', ') + ']';
@@ -50,14 +50,14 @@ Inspect = function(obj) {
 
   else {
     var objRep = [];
-    for(p in obj) {
-      if(obj.hasOwnProperty(p)) {
-        objRep.push(p + ': ' + ((typeof(obj[p]) == 'object') ? Inspect(obj[p]) : obj[p]));
+    for(var prop in obj) {
+      if(obj.hasOwnProperty(prop)) {
+        objRep.push(prop + ': ' + ((typeof(obj[prop]) == 'object') ? Inspect(obj[prop]) : obj[prop]));
       }
     }
     return '{' + objRep.join(', ') + '}';
   }
-}
+};
 
 // Prints an array of javascript objects.
 CollectionInspect = function(coll) {
@@ -66,4 +66,4 @@ CollectionInspect = function(coll) {
     str += Inspect(coll[i]) + '<br />'; 
   }
   return str;
-}
+};

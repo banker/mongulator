@@ -19,7 +19,7 @@ var ReadLine = function(options) {
   this.historyPtr   = 0;
 
   this.initialize();
-}
+};
 
 ReadLine.prototype = {
 
@@ -58,7 +58,7 @@ ReadLine.prototype = {
 
   // Returns the 'next' or 'previous' command in this history.
   getCommand: function(direction) {
-    if(this.history.length == 0) {
+    if(this.history.length === 0) {
       return;
     }
     this.adjustHistoryPointer(direction);
@@ -87,7 +87,7 @@ ReadLine.prototype = {
     this.insertResponse(response.result);
     
     // Save to the command history...
-    if((lineValue = value.trim()) != "") {
+    if((lineValue = value.trim()) !== "") {
       this.history.push(lineValue);
       this.historyPtr = this.history.length;
     }
@@ -102,7 +102,7 @@ ReadLine.prototype = {
   },
 
   insertResponse: function(response) {
-    if(response != "") {
+    if(response !== "") {
       this.activeLine.parent().append("<p class='response'>" + response + "</p>");
     }
   },
@@ -111,7 +111,7 @@ ReadLine.prototype = {
   mockHandler: function(inputString) {
     return inputString; 
   }
-}
+};
 
 var MongoHandler = function() {
   this._currentCommand = "";
@@ -120,10 +120,10 @@ var MongoHandler = function() {
   this._currentDB      = "test";
 
   this._mongo          = {};
-  this._mongo['test']  = [];
-  this.db              = this._mongo['test'];
+  this._mongo.test     = [];
+  this.db              = this._mongo.test;
   this._dbPtr       = 'test';
-}
+};
 
 MongoHandler.prototype = {
 
@@ -134,7 +134,7 @@ MongoHandler.prototype = {
       inputString += '  '; // fixes certain bugs with the tokenizer.
       var tokens    = inputString.tokens();
       var mongoFunc = this._getCommand(tokens);
-      if(this._commandStack == 0 && mongoFunc) {
+      if(this._commandStack === 0 && mongoFunc) {
         this._resetCurrentCommand();
         return {stack: 0, result: mongoFunc.apply(this, [tokens])};
       }
@@ -148,7 +148,7 @@ MongoHandler.prototype = {
       // Allows for dynamic creation of db collections.
       // We catch the exception, create the collection, then try the command again.
       matches = this._currentCommand.match(/db\.(\w+)/);
-      if(errorCheck != true && matches.length == 2) {
+      if(errorCheck !== true && matches.length == 2) {
         this._currentCommand = "";
         this._createCollection(matches[1]);
         return this._process(this._rawCommand, true);
@@ -199,7 +199,7 @@ MongoHandler.prototype = {
       }
     }
 
-    if(this._commandStack == 0) {
+    if(this._commandStack === 0) {
       return true;
     }
     else {
@@ -269,7 +269,7 @@ MongoHandler.prototype = {
 
   // create a new database collection.
   _createCollection: function(name) {
-    this.db[name] = new DBCollection();
+    this.db[name] = [];
   },
  
   // use [db_name]
@@ -301,7 +301,7 @@ MongoHandler.prototype = {
       }
     }
   }
-}
+};
 
 $(document).ready(function() {
   var mongo       = new MongoHandler();
