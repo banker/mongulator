@@ -304,7 +304,7 @@ MongoHandler.prototype = {
 };
 
 $(document).ready(function() {
-  var mongo       = new MongoHandler();
+  var mongo       = new MongoServerHandler();
   var terminal    = new ReadLine({htmlForInput: DefaultInputHtml, 
                                   handler: mongo._process, 
                                   scoper: mongo});
