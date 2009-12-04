@@ -272,6 +272,7 @@ Array.stdDev = function( arr ){
     return Math.sqrt( sum / arr.length );
 }
 
+/*
 if ( ! ObjectId.prototype )
     ObjectId.prototype = {}
 
@@ -284,6 +285,7 @@ ObjectId.prototype.tojson = function(){
 }
 
 ObjectId.prototype.isObjectId = true;
+*/
 
 if ( typeof( DBPointer ) != "undefined" ){
     DBPointer.prototype.fetch = function(){
