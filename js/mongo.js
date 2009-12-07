@@ -64,8 +64,8 @@ ReadLine.prototype = {
     }
     this.adjustHistoryPointer(direction);
     this.activeLine[0].value = this.history[this.historyPtr];
-    this.activeLine.focus();
-    this.activeLine[0].value = this.activeLine[0].value;
+    $(this.activeLine[0]).focus();
+    //this.activeLine[0].value = this.activeLine[0].value;
   },
 
   // Moves the history pointer to the 'next' or 'previous' position. 
@@ -127,6 +127,7 @@ var MongoHandler = function() {
   this._mongo.test     = [];
   this.db              = this._mongo.test;
   this._dbPtr       = 'test';
+  this.collections     = [];
 };
 
 MongoHandler.prototype = {
@@ -152,7 +153,8 @@ MongoHandler.prototype = {
       // Allows for dynamic creation of db collections.
       // We catch the exception, create the collection, then try the command again.
       matches = this._currentCommand.match(/db\.(\w+)/);
-      if(errorCheck !== true && matches.length == 2) {
+      if(matches && matches.length == 2 && 
+          errorCheck !== true && !this.collections.include(matches[1])) {
         this._currentCommand = "";
         this._createCollection(matches[1]);
         return this._process(this._rawCommand, true);
@@ -160,7 +162,7 @@ MongoHandler.prototype = {
 
       // Catch js errors.
       else {
-        this._resetCurrentCommand = "";
+        this._resetCurrentCommand();
         return {stack: 0, result: "JS Error: " + err};
       }
     }
@@ -168,13 +170,16 @@ MongoHandler.prototype = {
 
   // Calls eval on the input string when ready.
   _evaluator: function(tokens) {
+    console.log("evaluator");
     this._currentCommand += " " + this._scopeVars(tokens);
     if(this._shouldEvaluateCommand(tokens))  {
       
         // So this is the heart of the REPL.
+        console.log(this._currentCommand.trim());
         var result = Inspect(eval(this._currentCommand.trim()));
+        console.log("here is the result:" + result);
         if(result === undefined) {
-          throw('error');
+          throw('result is undefined');
         }
         this._resetCurrentCommand();
         return {stack: this._commandStack, result: result};
@@ -185,6 +190,7 @@ MongoHandler.prototype = {
   },
 
   _resetCurrentCommand: function() {
+    console.log('reset!');
     this._currentCommand = '';
     this._rawCommand     = '';
   },
@@ -221,7 +227,7 @@ MongoHandler.prototype = {
         }
         else if(!JavascriptKeywords.include(tokens[i].value.toLowerCase()) &&
                 !JavascriptClassNames.include(tokens[i].value)) {
-          // And it's not a json name or an object reference...
+          // And if it's not a json name or an object reference...
           if(!(tokens[i+1] && tokens[i+1].type == 'operator' && tokens[i+1].value == ':') &&
               !(tokens[i-1] && tokens[i-1].type == 'operator' && tokens[i-1].value == '.')) {
             tokens[i].value = "this." + tokens[i].value;
@@ -273,7 +279,9 @@ MongoHandler.prototype = {
 
   // create a new database collection.
   _createCollection: function(name) {
-    this.db[name] = new DBCollection();
+    console.log('creating new collection');
+    this.collections.push(name);
+    this.db[name] = new DBCollection(this._connection, this._dbPtr, 'short', name);
   },
  
   // use [db_name]

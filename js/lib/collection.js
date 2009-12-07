@@ -17,7 +17,7 @@ DBCollection.prototype.verify = function(){
     assert( this._shortName , "no shortName" );
     assert( this._db , "no db" );
 
-    assert.eq( this._fullName , this._db._name + "." + this._shortName , "name mismatch" );
+    //assert.eq( this._fullName , this._db._name + "." + this._shortName , "name mismatch" );
 
     assert( this._mongo , "no mongo in DBCollection" );
 }
@@ -146,7 +146,7 @@ DBCollection.prototype.insert = function( obj , _allow_dot ){
 }
 
 DBCollection.prototype.remove = function( t ){
-    this._mongo.remove( this._fullName , this._massageObject( t ) );
+    return this._mongo.remove( this._fullName , this._massageObject( t ) );
 }
 
 DBCollection.prototype.update = function( query , obj , upsert , multi ){
