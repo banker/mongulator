@@ -17,6 +17,7 @@ if ( typeof DBQuery == "undefined" ){
         this._numReturned = 0;
         this._special = false;
     }
+    // Orig.
     print( "DBQuery probably won't have array access " );
 }
 

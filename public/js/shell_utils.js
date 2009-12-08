@@ -1,3 +1,10 @@
+DB = function() {
+}
+
+print = function(msg) {
+  console.log(msg);
+}
+
 
 friendlyEqual = function( a , b ){
     if ( a == b )
@@ -23,8 +30,6 @@ assert = function( b , msg ){
     
     doassert( "assert failed : " + msg );
 }
-
-assert._debug = false;
 
 assert.eq = function( a , b , msg ){
     if ( assert._debug && msg ) print( "in assert for: " + msg );
@@ -272,7 +277,6 @@ Array.stdDev = function( arr ){
     return Math.sqrt( sum / arr.length );
 }
 
-/*
 if ( ! ObjectId.prototype )
     ObjectId.prototype = {}
 
@@ -285,7 +289,6 @@ ObjectId.prototype.tojson = function(){
 }
 
 ObjectId.prototype.isObjectId = true;
-*/
 
 if ( typeof( DBPointer ) != "undefined" ){
     DBPointer.prototype.fetch = function(){

@@ -176,11 +176,14 @@ MongoHandler.prototype = {
       
         // So this is the heart of the REPL.
         console.log(this._currentCommand.trim());
-        var result = Inspect(eval(this._currentCommand.trim()));
-        console.log("here is the result:" + result);
+        var result = eval(this._currentCommand.trim());
         if(result === undefined) {
           throw('result is undefined');
         }
+        else if(result.toString().match(/DBQuery/)) {
+          result = result._exec();
+        }
+        result = Inspect(result);
         this._resetCurrentCommand();
         return {stack: this._commandStack, result: result};
       }

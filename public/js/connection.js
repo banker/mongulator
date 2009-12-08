@@ -16,24 +16,30 @@ Connection.prototype = {
   },
 
   insert: function(collectionName, doc) {
-    console.log('inserted ' + Inspect(doc) + ' ' + collectionName);
-    $.post('/insert/', {name: collectionName, doc: doc});
-    return doc._id;
+    delete doc['_id'];
+    $.post('/insert', {name: collectionName, doc: tojson(doc)});
+    return 'ok';
   },
 
   update: function(collectionName, query, doc, upsert, multi) {
-    console.log('updated ' + collectionName + " with query " + Inspect(query) + " and docect " + Inspect(doc));
-    return doc._id;
+    $.post('/update', {name: collectionName, query: tojson(query), 
+        doc: tojson(doc), upsert: upsert, multi: multi});
+    return 'ok';
   },
 
   remove: function(collectionName, doc) {
-    console.log('remove ' + collectionName + ' ' + Inspect(doc));
+    $.post('/remove', {name: collectionName, doc: tojson(doc)});
     return "ok"; 
   },
 
-
   // Should return the first set of results for a cursor docect.
   find: function() {
-    
+    return "find doesn't work yet."
+  },
+
+  toString: function() {
+    return "Connection";
   }
+
 };
+

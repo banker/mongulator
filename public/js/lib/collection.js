@@ -125,6 +125,7 @@ DBCollection.prototype.find = function( query , fields , limit , skip ){
                         this._fullName , this._massageObject( query ) , fields , limit , skip );
 }
 
+
 DBCollection.prototype.findOne = function( query , fields ){
     var cursor = this._mongo.find( this._fullName , this._massageObject( query ) || {} , fields , -1 , 0  );
     if ( ! cursor.hasNext() )
