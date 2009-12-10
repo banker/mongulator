@@ -175,7 +175,6 @@ MongoHandler.prototype = {
         db = this.db;
 
         // So this is the heart of the REPL.
-        console.log(this._currentCommand.trim());
         var result = eval(this._currentCommand.trim());
         if(result === undefined) {
           throw('result is undefined');
@@ -324,12 +323,11 @@ MongoHandler.prototype = {
   },
 
   iterate: function() {
-    return $htmlForamt($lastCursor.iterate());
+    return $htmlFormat($lastCursor.iterate());
   },
 
   _getCommand: function(tokens) {
     if(MongoKeywords.include((tokens[0].value + '').toLowerCase())) {
-      console.log("value: " + tokens[0].value.toLowerCase());
       switch(tokens[0].value.toLowerCase()) {
         case 'help':
           return this.help;
@@ -343,9 +341,6 @@ MongoHandler.prototype = {
 $htmlFormat = function(obj) {
   return tojson(obj, ' ', ' ', true);
 }
-
-
-
 
 $(document).ready(function() {
   var mongo       = new MongoHandler();

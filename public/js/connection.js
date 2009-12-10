@@ -69,13 +69,11 @@ DBCursor.prototype = {
 
   _sendQuery: function(name, query, fields, limit, skip) {
     var ctx = this;
-    console.log(query);
     $.ajax({url: '/find', type: 'POST', async: false, dataType: "json",
         data: {name: this.collectionName, query: this.query, 
                fields: this.fields, limit: this.limit, 
                skip: this.skip, bypass: this.position}, 
         success: function(results) {ctx.cache = results;}});
-    console.log(this.cache);
   },
 
   refreshCache: function() {

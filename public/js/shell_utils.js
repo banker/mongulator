@@ -2,7 +2,7 @@ DB = function() {
 }
 
 print = function(msg) {
-  console.log(msg);
+  //console.log(msg);
 }
 
 
@@ -224,7 +224,7 @@ Array.tojson = function( a , indent , x , html){
     var spacer = "";
     if(html) {
       spacer = "<br/>";
-      indent = "&nbsp;"
+      indent = " &nbsp; "
     }
 
     var s = spacer + "[ " + spacer;

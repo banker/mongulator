@@ -35,7 +35,6 @@ post '/find' do
   fields = JSON.parse(params['fields'])
   limit  = params['limit'].to_i
   skip   = params['skip'].to_i
-  puts "LIMIT: #{limit}"
   cursor = coll.find(query, :fields => fields, :limit => limit, :skip => skip)
   return JSON.generate(cursor.to_a)
 end

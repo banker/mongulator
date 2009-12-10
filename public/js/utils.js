@@ -71,4 +71,3 @@ CollectionInspect = function(coll) {
   }
   return str;
 };
-
