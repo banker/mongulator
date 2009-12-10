@@ -2,7 +2,7 @@
 TryMongo
 Author: Kyle Banker (http://www.kylebanker.com)
 Date: September 1, 2009
- 
+
 (c) Creative Commons 2009
 http://creativecommons.org/licenses/by-sa/2.5/
 */
@@ -86,7 +86,7 @@ ReadLine.prototype = {
   processInput: function(value) {
     var response = this.inputHandler.apply(this.scoper, [value]);
     this.insertResponse(response.result);
-    
+
     // Save to the command history...
     if((lineValue = value.trim()) !== "") {
       this.history.push(lineValue);
@@ -149,7 +149,7 @@ MongoHandler.prototype = {
     }
 
     catch(err) {
-      
+
       // Allows for dynamic creation of db collections.
       // We catch the exception, create the collection, then try the command again.
       matches = this._currentCommand.match(/db\.(\w+)/);
@@ -170,30 +170,37 @@ MongoHandler.prototype = {
 
   // Calls eval on the input string when ready.
   _evaluator: function(tokens) {
-    console.log("evaluator");
-    this._currentCommand += " " + this._scopeVars(tokens);
+    this._currentCommand += " " + this._massageTokens(tokens);//this._scopeVars(tokens);
     if(this._shouldEvaluateCommand(tokens))  {
-      
+        db = this.db;
+
         // So this is the heart of the REPL.
         console.log(this._currentCommand.trim());
         var result = eval(this._currentCommand.trim());
         if(result === undefined) {
           throw('result is undefined');
         }
-        else if(result.toString().match(/DBQuery/)) {
-          result = result._exec();
+        else if(result.toString().match(/DBCursor/)) {
+          if(this._currentCommand.match(/=/)) {
+            result = "Cursor";
+          }
+          else {
+            result = $htmlFormat(result.iterate());
+          }
         }
-        result = Inspect(result);
+        else {
+          result = $htmlFormat(result);
+        }
         this._resetCurrentCommand();
         return {stack: this._commandStack, result: result};
       }
+
     else {
       return {stack: this._commandStack, result: ""};
     }
   },
 
   _resetCurrentCommand: function() {
-    console.log('reset!');
     this._currentCommand = '';
     this._rawCommand     = '';
   },
@@ -241,6 +248,17 @@ MongoHandler.prototype = {
     return this._collectTokens(tokens);
   },
 
+  _massageTokens: function(tokens) {
+    for(var i=0; i < tokens.length; i++) {
+      if(tokens[i].type == 'name') {
+        if(tokens[i].value == 'var') {
+          tokens[i].value = '';
+        }
+      }
+    }
+    return this._collectTokens(tokens);
+  },
+
   // Collects tokens into a string, placing spaces between variables.
   // This methods is called after we scope the vars.
   _collectTokens: function(tokens) {
@@ -259,7 +277,7 @@ MongoHandler.prototype = {
     return result;
   },
 
-  // printsh output to the screen, e.g., in a loop
+  // print output to the screen, e.g., in a loop
   // TODO: remove dependency here
   print: function() {
    $('.readline.active').parent().append('<p>' + arguments[0] + '</p>');      
@@ -282,7 +300,6 @@ MongoHandler.prototype = {
 
   // create a new database collection.
   _createCollection: function(name) {
-    console.log('creating new collection');
     this.collections.push(name);
     this.db[name] = new DBCollection(this._connection, this._dbPtr, 'short', name);
   },
@@ -306,17 +323,27 @@ MongoHandler.prototype = {
             PTAG('it                           result of the last line evaluated; use to further iterate');
   },
 
+  iterate: function() {
+    return $htmlForamt($lastCursor.iterate());
+  },
+
   _getCommand: function(tokens) {
     if(MongoKeywords.include((tokens[0].value + '').toLowerCase())) {
+      console.log("value: " + tokens[0].value.toLowerCase());
       switch(tokens[0].value.toLowerCase()) {
         case 'help':
           return this.help;
-        case 'use':
-          return this.use;
+        case 'it':
+          return this.iterate;
       }
     }
   }
 };
+
+$htmlFormat = function(obj) {
+  return tojson(obj, ' ', ' ', true);
+}
+
 
 
 

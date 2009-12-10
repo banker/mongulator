@@ -16,6 +16,10 @@ Array.prototype.include = function(value) {
   return false;
 };
 
+Array.prototype.empty = function() {
+  return (this.length == 0);
+};
+
 Function.prototype.bind = function() {
   var __method = this, object = arguments[0], args = [];
 
@@ -67,3 +71,4 @@ CollectionInspect = function(coll) {
   }
   return str;
 };
+

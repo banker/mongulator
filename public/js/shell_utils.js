@@ -218,16 +218,21 @@ Array.shuffle = function( arr ){
 }
 
 
-Array.tojson = function( a , indent ){
+Array.tojson = function( a , indent , x , html){
     if (!indent) 
         indent = "";
+    var spacer = "";
+    if(html) {
+      spacer = "<br/>";
+      indent = "&nbsp;"
+    }
 
-    var s = "[\n";
-    indent += "\t";
+    var s = spacer + "[ " + spacer;
+    indent += " ";
     for ( var i=0; i<a.length; i++){
         s += indent + tojson( a[i], indent );
         if ( i < a.length - 1 ){
-            s += ",\n";
+            s += "," + spacer;
         }
     }
     if ( a.length == 0 ) {
@@ -235,7 +240,7 @@ Array.tojson = function( a , indent ){
     }
 
     indent = indent.substring(1);
-    s += "\n"+indent+"]";
+    s += spacer + " "+"]";
     return s;
 }
 
@@ -347,7 +352,7 @@ else {
     print( "warning: no BinData" );
 }
 
-tojson = function( x, indent , nolint ){
+tojson = function( x, indent , nolint , html){
     if ( x == null )
         return "null";
     
@@ -376,7 +381,7 @@ tojson = function( x, indent , nolint ){
         return "" + x;
             
     case "object":{
-        var s = tojsonObject( x, indent , nolint );
+        var s = tojsonObject( x, indent , nolint , html);
         if ( ( nolint == null || nolint == true ) && s.length < 80 && ( indent == null || indent.length == 0 ) ){
             s = s.replace( /[\s\r\n ]+/gm , " " );
         }
@@ -393,9 +398,15 @@ tojson = function( x, indent , nolint ){
     
 }
 
-tojsonObject = function( x, indent , nolint ){
-    var lineEnding = nolint ? " " : "\n";
-    var tabSpace = nolint ? "" : "\t";
+tojsonObject = function( x, indent , nolint , html){
+    if(html) {
+      var lineEnding = "<br/>";
+      var tabSpace   = "&nbsp;";
+    }
+    else {
+      var lineEnding = nolint ? " " : "\n";
+      var tabSpace = nolint ? "" : "\t";
+    }
     
     assert.eq( ( typeof x ) , "object" , "tojsonObject needs object, not [" + ( typeof x ) + "]" );
 
@@ -403,11 +414,11 @@ tojsonObject = function( x, indent , nolint ){
         indent = "";
     
     if ( typeof( x.tojson ) == "function" && x.tojson != tojson ) {
-        return x.tojson(indent,nolint);
+        return x.tojson(indent,nolint,html);
     }
     
     if ( typeof( x.constructor.tojson ) == "function" && x.constructor.tojson != tojson ) {
-        return x.constructor.tojson( x, indent , nolint );
+        return x.constructor.tojson( x, indent , nolint, html );
     }
 
     if ( x.toString() == "[object MaxKey]" )

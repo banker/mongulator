@@ -121,19 +121,21 @@ DBCollection.prototype._validateForStorage = function( o ){
 
 
 DBCollection.prototype.find = function( query , fields , limit , skip ){
-    return new DBQuery( this._mongo , this._db , this ,
-                        this._fullName , this._massageObject( query ) , fields , limit , skip );
+    return new DBCursor( this._fullName , this._massageObject( query ) , fields , limit , skip );
 }
 
 
 DBCollection.prototype.findOne = function( query , fields ){
-    var cursor = this._mongo.find( this._fullName , this._massageObject( query ) || {} , fields , -1 , 0  );
+    query      = this._massageObject(query);
+    var cursor = this._mongo.find( this._fullName , query , fields , -1 , 0  );
     if ( ! cursor.hasNext() )
         return null;
     var ret = cursor.next();
+    /*
     if ( cursor.hasNext() ) throw "findOne has more than 1 result!";
     if ( ret.$err )
         throw "error " + tojson( ret );
+    */
     return ret;
 }
 
@@ -154,7 +156,7 @@ DBCollection.prototype.update = function( query , obj , upsert , multi ){
     assert( query , "need a query" );
     assert( obj , "need an object" );
     this._validateObject( obj );
-    this._mongo.update( this._fullName , query , obj , upsert ? true : false , multi ? true : false );
+    return this._mongo.update( this._fullName , query , obj , upsert ? true : false , multi ? true : false );
 }
 
 DBCollection.prototype.save = function( obj ){

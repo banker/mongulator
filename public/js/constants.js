@@ -31,4 +31,4 @@ var JavascriptKeywords = ['abstract', 'boolean', 'break', 'byte', 'case', 'catch
 
 var JavascriptClassNames = ['Array', 'String', 'Object']
 
-var MongoKeywords = ['help', 'use'];
+var MongoKeywords = ['help', 'it'];
