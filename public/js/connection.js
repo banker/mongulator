@@ -44,8 +44,21 @@ Connection.prototype = {
   }
 };
 
+var $emptyCursor = function() {
+};
+
+$emptyCursor.prototype = {
+  iterate: function() {
+    return "Cursor is empty or no longer available.";
+  }
+};
+
+var $resetCursor = function() {
+  $lastCursor = new $emptyCursor();
+};
+
 // Store the last created cursor for easy iteration.
-$lastCursor = null;
+$lastCursor = new $emptyCursor();
 
 var DBCursor = function(collectionName, query, fields, limit, skip) {
   this.collectionName = collectionName;
@@ -73,7 +86,7 @@ DBCursor.prototype = {
     $.ajax({url: '/find', type: 'POST', async: false, dataType: "json",
         data: {name: this.collectionName, query: this.query,
                fields: this.fields, limit: this.limit,
-               skip: this.skip, bypass: this.position},
+               skip: skip},
         complete: function() { $('.spinner').hide(); },
         success: function(results) {ctx.cache = results;}});
   },
@@ -81,11 +94,12 @@ DBCursor.prototype = {
   refreshCache: function() {
     var skip = this.skip + this.position;
     this._sendQuery(this.collectionName, this.query, this.fields, this.limit, skip);
-    return this.cache.size == 0 ? false : true;
+    return this.cache.empty() ? false : true;
   },
 
   iterate: function() {
     if(this.cache.empty() && !this.refreshCache()) {
+      $resetCursor();
       return [];
     }
     else {
@@ -102,7 +116,7 @@ DBCursor.prototype = {
 
   next: function() {
     if(this.cache.empty() && !this.refreshCache()) {
-      return null;
+      return [];
     }
     else {
       var item = this.cache.shift();
