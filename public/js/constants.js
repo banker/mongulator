@@ -11,12 +11,12 @@ http://creativecommons.org/licenses/by-sa/2.5/
 var DefaultInputHtml = function(stack) {
     var linePrompt = "";
     for(var i=0; i <= stack; i++) {
-      linePrompt += "<span class='prompt'>></span>";
+      linePrompt += "<span class='prompt'> ></span>";
     }
     return "<div class='line'>" +
            linePrompt +
            "<input type='text' class='readLine active' />" +
-           "</div>";
+           "<img class='spinner' src='/img/spinner.gif' style='display:none;' /></div>";
 }
 
 var EnterKeyCode     = 13;

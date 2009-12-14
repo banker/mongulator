@@ -96,6 +96,7 @@ ReadLine.prototype = {
     // deactivate the line...
     this.activeLine.value = "";
     this.activeLine.attr({disabled: true});
+    this.activeLine.next('.spinner').remove();
     this.activeLine.removeClass('active');
 
     // and add add a new command line.
@@ -139,7 +140,10 @@ MongoHandler.prototype = {
       inputString += '  '; // fixes certain bugs with the tokenizer.
       var tokens    = inputString.tokens();
       var mongoFunc = this._getCommand(tokens);
-      if(this._commandStack === 0 && mongoFunc) {
+      if(this._commandStack === 0 && inputString.match(/^\s*$/)) {
+        return {stack: 0, result: ''};
+      }
+      else if(this._commandStack === 0 && mongoFunc) {
         this._resetCurrentCommand();
         return {stack: 0, result: mongoFunc.apply(this, [tokens])};
       }
@@ -170,7 +174,7 @@ MongoHandler.prototype = {
 
   // Calls eval on the input string when ready.
   _evaluator: function(tokens) {
-    this._currentCommand += " " + this._massageTokens(tokens);//this._scopeVars(tokens);
+    this._currentCommand += " " + this._massageTokens(tokens);
     if(this._shouldEvaluateCommand(tokens))  {
         db = this.db;
 
@@ -226,27 +230,6 @@ MongoHandler.prototype = {
     }
   },
 
-  // Adds 'this' to scope any vars locally;
-  // also removes the 'var' keywords (a tiny hack).
-  _scopeVars: function(tokens) {
-    for(var i=0; i < tokens.length; i++) {
-      if(tokens[i].type == 'name') {
-        if(tokens[i].value == 'var') {
-          tokens[i].value = '';
-        }
-        else if(!JavascriptKeywords.include(tokens[i].value.toLowerCase()) &&
-                !JavascriptClassNames.include(tokens[i].value)) {
-          // And if it's not a json name or an object reference...
-          if(!(tokens[i+1] && tokens[i+1].type == 'operator' && tokens[i+1].value == ':') &&
-              !(tokens[i-1] && tokens[i-1].type == 'operator' && tokens[i-1].value == '.')) {
-            tokens[i].value = "this." + tokens[i].value;
-          }
-        }
-      }
-    }
-    return this._collectTokens(tokens);
-  },
-
   _massageTokens: function(tokens) {
     for(var i=0; i < tokens.length; i++) {
       if(tokens[i].type == 'name') {
@@ -286,53 +269,44 @@ MongoHandler.prototype = {
   /* MongoDB     */
   /* ________________________________________ */
 
-  // Selects a new db. 
-  _selectDB: function(name) {
-    this._mongo[this._dbPtr] = this.db;
-    if(!this._mongo[name]) {
-      this._mongo[name] = [];
-    }
-    this._dbPtr = name;
-    this.db        = this._mongo[this._dbPtr];
-    return this.db;
-  },
-
   // create a new database collection.
   _createCollection: function(name) {
     this.collections.push(name);
     this.db[name] = new DBCollection(this._connection, this._dbPtr, 'short', name);
   },
  
-  // use [db_name]
-  use: function(tokens) {
-    this._selectDB(tokens[1].value + '');
-    return "switched to db " + this._dbPtr;
-  },
-
   // help command
-  help: function() {
+  _help: function() {
       return PTAG('HELP') + 
-            PTAG('show dbs                     show database names') + 
-            PTAG('show collections             show collections in current database') + 
-            PTAG('use [db_name]                set curent database to [db_name]') +
-            PTAG('db.help()                    help on DB methods') +
-            PTAG('db.foo.help()                help on collection methods') +
-            PTAG('db.foo.find()                list objects in collection foo') +
-            PTAG('db.foo.find( { a : 1 } )     list objects in foo where a == 1') +
-            PTAG('it                           result of the last line evaluated; use to further iterate');
+             PTAG('show collections              show collections in current database') + 
+             PTAG('db.help()                     help on DB methods') +
+             PTAG('db.foo.help()                 help on collection methods') +
+             PTAG('db.foo.find()                 list objects in collection foo') +
+             PTAG('db.foo.save({a: 1})           save a document to collection foo') +
+             PTAG('db.foo.update({a: 1}, {a: 2}) update document where a is 1') +
+             PTAG('db.foo.find({a: 1})           list objects in foo where a == 1') +
+             PTAG('it                            result of the last line evaluated; use to further iterate');
   },
 
-  iterate: function() {
+  _iterate: function() {
     return $htmlFormat($lastCursor.iterate());
   },
 
+  _showCollections: function() {
+    return $htmlFormat("no collections");
+  },
+
   _getCommand: function(tokens) {
-    if(MongoKeywords.include((tokens[0].value + '').toLowerCase())) {
+    if(tokens[0] && MongoKeywords.include((tokens[0].value + '').toLowerCase())) {
       switch(tokens[0].value.toLowerCase()) {
         case 'help':
-          return this.help;
+          return this._help;
+        case 'show':
+          if(tokens[1].value.toLowerCase() == 'collections') {
+            return this._showCollections;
+          }
         case 'it':
-          return this.iterate;
+          return this._iterate;
       }
     }
   }

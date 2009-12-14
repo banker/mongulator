@@ -54,7 +54,16 @@ DBCollection.prototype.help = function(){
     print("\tdb.foo.totalIndexSize() - size in bytes of all the indexes");
     print("\tdb.foo.totalSize() - storage allocated for all data and indexes");
     print("\tdb.foo.update(query, object[, upsert_bool])");
-    print("\tdb.foo.validate() - SLOW");
+    return   PTAG('DBCollection help') + 
+             PTAG('show collections              show collections in current database') + 
+             PTAG('db.help()                     help on DB methods') +
+             PTAG('db.foo.help()                 help on collection methods') +
+             PTAG('db.foo.find()                 list objects in collection foo') +
+             PTAG('db.foo.save({a: 1})           save a document to collection foo') +
+             PTAG('db.foo.update({a: 1}, {a: 2}) update document where a is 1') +
+             PTAG('db.foo.find({a: 1})           list objects in foo where a == 1') +
+             PTAG('it                            result of the last line evaluated; use to further iterate');
+
 }
 
 DBCollection.prototype.getFullName = function(){
