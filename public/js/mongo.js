@@ -283,7 +283,7 @@ MongoHandler.prototype = {
              PTAG('db.foo.help()                 help on collection methods') +
              PTAG('db.foo.find()                 list objects in collection foo') +
              PTAG('db.foo.save({a: 1})           save a document to collection foo') +
-             PTAG('db.foo.update({a: 1}, {a: 2}) update document where a is 1') +
+             PTAG('db.foo.update({a: 1}, {a: 2}) update document where a == 1') +
              PTAG('db.foo.find({a: 1})           list objects in foo where a == 1') +
              PTAG('it                            result of the last line evaluated; use to further iterate');
   },
@@ -293,7 +293,16 @@ MongoHandler.prototype = {
   },
 
   _showCollections: function() {
-    return $htmlFormat("no collections");
+    var cursor  = new DBCursor('system.namespaces', {}, {});
+    var results = cursor.iterate(); 
+    var collections = [];
+    results.forEach(function(col) {
+      if(!col.name.match(/\$/)) {
+        name = col.name.match(/(\w+\.)(.*)/)[2];
+        collections.push(name);
+      }
+    });
+    return $htmlFormat(collections);
   },
 
   _getCommand: function(tokens) {
@@ -304,6 +313,9 @@ MongoHandler.prototype = {
         case 'show':
           if(tokens[1].value.toLowerCase() == 'collections') {
             return this._showCollections;
+          }
+          else {
+            return null;
           }
         case 'it':
           return this._iterate;
