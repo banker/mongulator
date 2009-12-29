@@ -3,12 +3,19 @@ require 'mongo'
 require 'sinatra'
 require 'json'
 
-CONN = Mongo::Connection.new
+configure do
+  CONN = Mongo::Connection.new
+  DB   = 'mongulator'
+end
+
 enable :sessions
 
-def user_db
-  session["user_db"] ||= Mongo::ObjectID.new.to_s
-  session["user_db"]
+def user_scope
+  session["user_scope"] ||= Mongo::ObjectID.new.to_s
+end
+
+def scoped_collection(name)
+  CONN[DB][user_scope + '.' + name]
 end
 
 get '/' do
@@ -16,12 +23,12 @@ get '/' do
 end
 
 post '/insert' do
-  coll = CONN.db(user_db).collection(params['name'])
+  coll = scoped_collection(params['name'])
   coll.insert(JSON.parse(params['doc']))
 end
 
 post '/update' do
-  coll  = CONN.db(user_db).collection(params['name'])
+  coll   = scoped_collection(params['name'])
   query  = JSON.parse(params['query'])
   doc    = JSON.parse(params['doc'])
   upsert = (params['upsert'] == 'true')
@@ -30,12 +37,12 @@ post '/update' do
 end
 
 post '/remove' do
-  coll = CONN.db(user_db).collection(params['name'])
+  coll = scoped_collection(params['name'])
   coll.remove(JSON.parse(params['doc']))
 end
 
 post '/find' do
-  coll   = CONN[user_db][params['name']]
+  coll   = scoped_collection(params['name'])
   query  = JSON.parse(params['query'])
   fields = JSON.parse(params['fields'])
   fields = nil if fields == {}
