@@ -24,7 +24,9 @@ end
 
 post '/insert' do
   coll = scoped_collection(params['name'])
-  coll.insert(JSON.parse(params['doc']))
+  if coll.count < 200
+    coll.insert(JSON.parse(params['doc']))
+  end
 end
 
 post '/update' do

@@ -1,11 +1,13 @@
 body {
   font-family: Monaco, serif;
   font-size: 20px;
+  background-color: #f3f4eb;
 }
 
 #header {
   width: 960px;
   margin:50px auto 50px auto;
+  color: #402817;
   font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif;
 }
 
