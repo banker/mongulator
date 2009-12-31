@@ -329,9 +329,9 @@ MongoHandler.prototype = {
     return PTAG('1. JavaScript Shell') +
            PTAG('The first thing to notice is that the MongoDB shell is JavaScript-based.') +
            PTAG('So you can do things like:') +
-           PTAG('  a = 5') +
-           PTAG('  a * 10') +
-           PTAG("  for(i=0; i<10; i++) { print('hello'); }") +
+           PTAG('  a = 5; ') +
+           PTAG('  a * 10; ') +
+           PTAG("  for(i=0; i<10; i++) { print('hello'); }; ") +
            PTAG("Try a few JS commands; when you're ready to move on, enter 'next'");
 
   },
@@ -341,9 +341,9 @@ MongoHandler.prototype = {
     return PTAG("2. Documents") +
            PTAG("MongoDB is a document database. This means that we store data as documents,") +
            PTAG("which are simiar to JavaScript objects. Here below are a few sample JS objects:") +
-           PTAG('  var a = {age: 25}') +
-           PTAG("  var n = {name: 'Ed', languages: ['c', 'ruby', 'js']}") +
-           PTAG("  var student = {name: 'Jim', scores: [75, 99, 87.2]}") +
+           PTAG('  var a = {age: 25}; ') +
+           PTAG("  var n = {name: 'Ed', languages: ['c', 'ruby', 'js']}; ") +
+           PTAG("  var student = {name: 'Jim', scores: [75, 99, 87.2]}; ") +
            PTAG("Create some documents, then enter 'next'");
   },
 
@@ -352,11 +352,11 @@ MongoHandler.prototype = {
     this._tutorialPtr = 3;
     return PTAG('3. Saving') +
            PTAG("Here's how you save a document to MongoDB:") +
-           PTAG("  db.scores.save({a: 99})") +
+           PTAG("  db.scores.save({a: 99}); ") +
            BR() +
            PTAG("This says, \"save the document '{a: 99}' to the 'scores' collection.\"") +
            PTAG("Go ahead and try it. Then, to see if the document was saved, try") +
-           PTAG("  db.scores.find()") +
+           PTAG("  db.scores.find(); ") +
            PTAG("Once you've tried this, type 'next'.") +
            BR();
   },
@@ -365,10 +365,10 @@ MongoHandler.prototype = {
     this._tutorialPtr = 4;
     return PTAG('4. Saving and Querying') +
            PTAG("Try adding some documents to the scores collection:") +
-           PTAG("  for(i=0; i<10; i++) { db.scores.save({a: i, exam: 5})") +
+           PTAG("  for(i=0; i<10; i++) { db.scores.save({a: i, exam: 5}); ") +
            BR() +
            PTAG("Try that, then enter") +
-           PTAG("  db.scores.find()") +
+           PTAG("  db.scores.find(); ") +
            PTAG("to see the save succeeded. Since the shell only displays 10 results at time,") +
            PTAG("you'll need to enter the 'it' command to iterate over the rest.") +
            BR() +
@@ -380,10 +380,10 @@ MongoHandler.prototype = {
     return PTAG('5. Basic Queries') +
            PTAG("You've already tried a few queries, but let's make them more specific.") +
            PTAG("How about finding all documents where a == 2:") +
-           PTAG("  db.scores.find({a: 2})") +
+           PTAG("  db.scores.find({a: 2}); ") +
            BR() +
            PTAG("Or what about documents where a > 15?") +
-           PTAG("  db.scores.find({a: {'$gt': 15}})") +
+           PTAG("  db.scores.find({a: {'$gt': 15}}); ") +
            BR();
   },
 
@@ -396,8 +396,8 @@ MongoHandler.prototype = {
            PTAG("  $gte - '>=',  $ne  - '!='") +
            PTAG("  $in - 'is in array',  $nin - '! in array'") +
            BR() +
-           PTAG("db.scores.find({a: {'$in': [2, 3, 4]}})") +
-           PTAG("db.scores.find({a: {'$gte': 2, '$lte': 4}})") +
+           PTAG("db.scores.find({a: {'$in': [2, 3, 4]}}); ") +
+           PTAG("db.scores.find({a: {'$gte': 2, '$lte': 4}}); ") +
            PTAG("Try creating some queries, then move on to t7") +
            BR();
   },
@@ -406,11 +406,11 @@ MongoHandler.prototype = {
     this._tutorialPtr = 7;
     return PTAG('7. Updates') +
            PTAG("Now create a couple documents like these for updating:") +
-           PTAG("  db.users.save({name: 'Johnny', languages: ['ruby', 'c']})") +
-           PTAG("  db.users.save({name: 'Sue', languages: ['scala', 'lisp']})") +
+           PTAG("  db.users.save({name: 'Johnny', languages: ['ruby', 'c']}); ") +
+           PTAG("  db.users.save({name: 'Sue', languages: ['scala', 'lisp']}); ") +
            PTAG("Make sure they were saved by called db.users.find()") +
            PTAG("Update the first document like so:") +
-           PTAG("  db.users.update({name: 'Johnny'}, {name: 'Cash', languages: ['english']})");
+           PTAG("  db.users.update({name: 'Johnny'}, {name: 'Cash', languages: ['english']}); ");
   },
 
   _t8: function() {
@@ -418,20 +418,20 @@ MongoHandler.prototype = {
     return PTAG('8. Update Operators') +
            PTAG("The previous update replaced the entire document, but MongoDB also") +
            PTAG("supports partial updates to documents. For example, you can set a value:") +
-           PTAG("  db.users.update({name: 'Cash'}, {'$set': {'age': 50} })") +
+           PTAG("  db.users.update({name: 'Cash'}, {'$set': {'age': 50} }); ") +
            PTAG("You can also push and pop (pull in MongoDB) items from arrays:") +
-           PTAG("  db.users.update({name: 'Sue'}, {'$pull': {'languages': 'scala'} })") +
-           PTAG("  db.users.update({name: 'Sue'}, {'$push': {'languages': 'ruby'} })") +
-           PTAG("Give these a try, check the results, and then enter 'next'.)");
+           PTAG("  db.users.update({name: 'Sue'}, {'$pull': {'languages': 'scala'} }); ") +
+           PTAG("  db.users.update({name: 'Sue'}, {'$push': {'languages': 'ruby'} }); ") +
+           PTAG("Give these a try, check the results, and then enter 'next'.");
   },
 
   _t9: function() {
     this._tutorialPtr = 9;
     return PTAG('9. Deleting data') +
            PTAG("To delete everything from a collection:") +
-           PTAG("  db.scores.remove()") +
+           PTAG("  db.scores.remove();") +
            PTAG("To delete matching documents only, add a query selector to the remove method:") +
-           PTAG("  db.users.remove({name: 'Sue'})");
+           PTAG("  db.users.remove({name: 'Sue'});");
   },
 
   _t10: function() {
