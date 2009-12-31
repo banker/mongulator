@@ -365,7 +365,7 @@ MongoHandler.prototype = {
     this._tutorialPtr = 4;
     return PTAG('4. Saving and Querying') +
            PTAG("Try adding some documents to the scores collection:") +
-           PTAG("  for(i=0; i<10; i++) { db.scores.save({a: i, exam: 5}); ") +
+           PTAG("  for(i=0; i<10; i++) { db.scores.save({a: i, exam: 5}) }; ") +
            BR() +
            PTAG("Try that, then enter") +
            PTAG("  db.scores.find(); ") +
