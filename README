@@ -1,4 +1,4 @@
 = Mongulator
 == A basic MongoDB shell for the browser
 
-
+I built this so that people could experiment with MongoDB in their browsers.
