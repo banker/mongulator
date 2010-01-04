@@ -34,7 +34,7 @@ body {
   background: black;
   color: #45FF17;
   font-size: 18px;
-  font-family: Monaco, serif;
+  font-family: Monaco, monospace;
 }
 
 #terminal p, #terminal pre {
