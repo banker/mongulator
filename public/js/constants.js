@@ -10,8 +10,13 @@ http://creativecommons.org/licenses/by-sa/2.5/
 
 var DefaultInputHtml = function(stack) {
     var linePrompt = "";
-    for(var i=0; i <= stack; i++) {
+    if(stack == 0) {
       linePrompt += "<span class='prompt'> ></span>";
+    }
+    else {
+      for(var i=0; i <= stack; i++) {
+        linePrompt += "<span class='prompt'>.</span>";
+      }
     }
     return "<div class='line'>" +
            linePrompt +
