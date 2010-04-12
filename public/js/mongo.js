@@ -369,7 +369,7 @@ MongoHandler.prototype = {
            BR() +
            PTAG("Try that, then enter") +
            PTAG("  db.scores.find(); ") +
-           PTAG("to see the save succeeded. Since the shell only displays 10 results at time,") +
+           PTAG("to see if the save succeeded. Since the shell only displays 10 results at time,") +
            PTAG("you'll need to enter the 'it' command to iterate over the rest.") +
            BR() +
            PTAG("(enter 'next' when you're ready)");
@@ -398,7 +398,7 @@ MongoHandler.prototype = {
            BR() +
            PTAG("db.scores.find({a: {'$in': [2, 3, 4]}}); ") +
            PTAG("db.scores.find({a: {'$gte': 2, '$lte': 4}}); ") +
-           PTAG("Try creating some queries, then move on to t7") +
+           PTAG("Try creating some queries, then type 'next.'") +
            BR();
   },
 
@@ -419,7 +419,7 @@ MongoHandler.prototype = {
            PTAG("The previous update replaced the entire document, but MongoDB also") +
            PTAG("supports partial updates to documents. For example, you can set a value:") +
            PTAG("  db.users.update({name: 'Cash'}, {'$set': {'age': 50} }); ") +
-           PTAG("You can also push and pop (pull in MongoDB) items from arrays:") +
+           PTAG("You can also push and pull items from arrays:") +
            PTAG("  db.users.update({name: 'Sue'}, {'$pull': {'languages': 'scala'} }); ") +
            PTAG("  db.users.update({name: 'Sue'}, {'$push': {'languages': 'ruby'} }); ") +
            PTAG("Give these a try, check the results, and then enter 'next'.");
@@ -473,7 +473,7 @@ MongoHandler.prototype = {
         case 'back':
           return this._back;
         case 't0':
-          return this._ideas;
+          return this._tutorial;
         case 't1':
           return this._t1;
         case 't2':
