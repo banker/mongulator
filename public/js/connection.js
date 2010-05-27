@@ -7,6 +7,8 @@ Date: September 1, 2009
 http://creativecommons.org/licenses/by-sa/2.5/
 */
 
+var AppBaseURL = ""
+
 var Connection = function() {
   this.initialize();
 };
@@ -18,18 +20,18 @@ Connection.prototype = {
 
   insert: function(collectionName, doc) {
     delete doc['_id'];
-    $.post('insert', {name: collectionName, doc: tojson(doc)});
+    $.post(AppBaseURL + 'insert', {name: collectionName, doc: tojson(doc)});
     return 'ok';
   },
 
   update: function(collectionName, query, doc, upsert, multi) {
-    $.post('update', {name: collectionName, query: tojson(query), 
+    $.post(AppBaseURL + 'update', {name: collectionName, query: tojson(query), 
         doc: tojson(doc), upsert: upsert, multi: multi});
     return 'ok';
   },
 
   remove: function(collectionName, doc) {
-    $.post('remove', {name: collectionName, doc: tojson(doc)});
+    $.post(AppBaseURL + 'remove', {name: collectionName, doc: tojson(doc)});
     return 'ok'; 
   },
 
@@ -83,7 +85,7 @@ DBCursor.prototype = {
   _sendQuery: function(name, query, fields, limit, skip) {
     $('.spinner').show();
     var ctx = this;
-    $.ajax({url: 'find', type: 'POST', async: false, dataType: "json",
+    $.ajax({url: AppBaseURL + 'find', type: 'POST', async: false, dataType: "json",
         data: {name: this.collectionName, query: this.query,
                fields: this.fields, limit: this.limit,
                skip: skip},

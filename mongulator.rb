@@ -51,5 +51,5 @@ post '/find' do
   limit  = params['limit'].to_i
   skip   = params['skip'].to_i
   cursor = coll.find(query, :fields => fields, :limit => limit, :skip => skip)
-  return JSON.generate(cursor.to_a)
+  cursor.to_a.to_json
 end
