@@ -50,10 +50,6 @@ ReadLine.prototype = {
       }
     });
 
-    $(document).bind("keydown", function(ev) {
-      ctx.activeLine.focus();
-    });
-
     this.activeLine.focus();
   },
 
