@@ -104,7 +104,10 @@ ReadLine.prototype = {
   },
 
   insertResponse: function(response) {
-    if(response !== "") {
+    if(response.length < 3) {
+      this.activeLine.parent().append("<p class='response'></p>");
+    }
+    else {
       this.activeLine.parent().append("<p class='response'>" + response + "</p>");
     }
   },
@@ -266,7 +269,7 @@ MongoHandler.prototype = {
   // TODO: remove dependency here
   print: function() {
    $('.readline.active').parent().append('<p>' + arguments[0] + '</p>');
-   return '';
+   return "";
   },
 
   /* MongoDB     */
