@@ -92,7 +92,6 @@ ReadLine.prototype = {
     // deactivate the line...
     this.activeLine.value = "";
     this.activeLine.attr({disabled: true});
-    this.activeLine.next('.spinner').remove();
     this.activeLine.removeClass('active');
 
     // and add add a new command line.

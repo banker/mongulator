@@ -21,7 +21,7 @@ var DefaultInputHtml = function(stack) {
     return "<div class='line'>" +
            linePrompt +
            "<input type='text' class='readLine active' />" +
-           "<img class='spinner' src='/img/spinner.gif' style='display:none;' /></div>";
+           "</div>";
 }
 
 var EnterKeyCode     = 13;

@@ -83,13 +83,12 @@ DBCursor.prototype = {
   },
 
   _sendQuery: function(name, query, fields, limit, skip) {
-    $('.spinner').show();
     var ctx = this;
     $.ajax({url: AppBaseURL + 'find', type: 'POST', async: false, dataType: "json",
         data: {name: this.collectionName, query: this.query,
                fields: this.fields, limit: this.limit,
                skip: skip},
-        complete: function() { $('.spinner').hide(); },
+        complete: function() { },
         success: function(results) {ctx.cache = results;}});
   },
 
