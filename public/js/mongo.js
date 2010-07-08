@@ -338,7 +338,7 @@ MongoHandler.prototype = {
     this._tutorialPtr = 2;
     return PTAG("2. Documents") +
            PTAG("MongoDB is a document database. This means that we store data as documents,") +
-           PTAG("which are simiar to JavaScript objects. Here below are a few sample JS objects:") +
+           PTAG("which are similar to JavaScript objects. Here below are a few sample JS objects:") +
            PTAG('  var a = {age: 25}; ') +
            PTAG("  var n = {name: 'Ed', languages: ['c', 'ruby', 'js']}; ") +
            PTAG("  var student = {name: 'Jim', scores: [75, 99, 87.2]}; ") +
