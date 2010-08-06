@@ -1,3 +1,9 @@
+// TryMongo
+//
+// Copyright (c) 2009 Kyle Banker
+// Licensed under the MIT Licence.
+// http://www.opensource.org/licenses/mit-license.php
+
 var MockMongoHandler = function() {
   this._currentCommand = "";
   this._rawCommand     = "";

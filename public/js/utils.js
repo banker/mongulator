@@ -1,10 +1,15 @@
-/*
+// Try Mongo
+//
+// Copyright (c) 2009 Kyle Banker
+// Licensed under the MIT licence.
+// http://www.opensource.org/licenses/mit-license.php
+
+*
 TryMongo
 Author: Kyle Banker (http://www.kylebanker.com)
 Date: September 1, 2009
  
-(c) Creative Commons 2009
-http://creativecommons.org/licenses/by-sa/2.5/
+(c) 2009
 */
 
 Array.prototype.include = function(value) {
