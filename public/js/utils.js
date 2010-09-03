@@ -4,14 +4,6 @@
 // Licensed under the MIT licence.
 // http://www.opensource.org/licenses/mit-license.php
 
-*
-TryMongo
-Author: Kyle Banker (http://www.kylebanker.com)
-Date: September 1, 2009
- 
-(c) 2009
-*/
-
 Array.prototype.include = function(value) {
   for(var i=0; i < this.length; i++) {
     if(this[i] == value) {

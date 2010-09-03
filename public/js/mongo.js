@@ -260,7 +260,7 @@ MongoHandler.prototype = {
   // print output to the screen, e.g., in a loop
   // TODO: remove dependency here
   print: function() {
-   $('.readline.active').parent().append('<p>' + arguments[0] + '</p>');
+   $('.readLine.active').parent().append('<p>' + arguments[0] + '</p>');
    return "";
   },
 
