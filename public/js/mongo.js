@@ -423,10 +423,10 @@ MongoHandler.prototype = {
   _t9: function() {
     this._tutorialPtr = 9;
     return PTAG('9. Deleting data') +
-           PTAG("To delete everything from a collection:") +
-           PTAG("  db.scores.remove();") +
            PTAG("To delete matching documents only, add a query selector to the remove method:") +
            PTAG("  db.users.remove({name: 'Sue'});");
+           PTAG("To delete everything from a collection:") +
+           PTAG("  db.scores.remove();") +
   },
 
   _t10: function() {
