@@ -1,17 +1,27 @@
-require 'rubygems'
-require 'mongo'
 require 'sinatra'
+require 'mongo'
+require 'bson'
 require 'json'
 
 configure do
-  CONN = Mongo::Connection.new
-  DB   = 'mongulator'
+  if ENV['VCAP_SERVICES']
+    host = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['hostname']
+    port = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['port']
+    username = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['name']
+    password = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['password']
+    CONN = Mongo::Connection.new(host, port)
+    CONN.authenticate(username, password)
+  else
+    CONN = Mongo::Connection.new
+  end
+
+  DB = 'vm-mongo'
 end
 
 enable :sessions
 
 def user_scope
-  session['user_scope'] ||= BSON::ObjectID.new.to_s
+  session['user_scope'] ||= BSON::ObjectId.new.to_s
 end
 
 def scoped_collection(name)
@@ -23,6 +33,10 @@ get '/' do
 end
 
 post '/insert' do
+  if params['name'] == 'info'
+    CONN[DB]['info'].insert(JSON.parse(params['doc']))
+  end
+
   coll = scoped_collection(params['name'])
   if coll.count < 200
     coll.insert(JSON.parse(params['doc']))

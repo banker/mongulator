@@ -275,7 +275,7 @@ MongoHandler.prototype = {
  
   // help command
   _help: function() {
-      return PTAG('HELP') + 
+      return PTAG('HELP') +
              PTAG('Note: Only a subset of MongoDB\'s features are provided here.') +
              PTAG('For everything else, download and install at mongodb.org.') +
              PTAG('db.foo.help()                 help on collection methods') +
@@ -284,6 +284,24 @@ MongoHandler.prototype = {
              PTAG('db.foo.update({a: 1}, {a: 2}) update document where a == 1') +
              PTAG('db.foo.find({a: 1})           list objects in foo where a == 1') +
              PTAG('it                            use to further iterate over a cursor');
+
+  },
+
+  _contest: function() {
+      return PTAG('10gen is giving away MongoDB mugs and backpacks.') +
+             PTAG('To enter the giveaway, simply save your contact information to ') +
+             PTAG('\'info\' collection. For example, to save your name and email address, you\'d enter:') +
+             PTAG(' ') +
+             PTAG('  db.info.save({name: "Meghan", email: "meghan@10gen.com"})') +
+             PTAG(' ') +
+             PTAG('You can then query the collection to make sure your data was saved:') +
+             PTAG(' ') +
+             PTAG('  db.info.find()') +
+             PTAG('   {   "_id" : {   "$oid" : "4da31b461d41c8203e000005"   },') +
+             PTAG('       "name" : "Meghan",') +
+             PTAG('       "email" : "meghan@10gen.com"   }') +
+             PTAG(' ') +
+             PTAG('Winners will be notified in the coming weeks.');
 
   },
 
@@ -459,6 +477,8 @@ MongoHandler.prototype = {
       switch(tokens[0].value.toLowerCase()) {
         case 'help':
           return this._help;
+        case 'contest':
+          return this._contest;
         case 'use':
           return this._use;
         case 'tutorial':

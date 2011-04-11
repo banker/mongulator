@@ -1,23 +1,45 @@
 body {
   font-family: Monaco, serif;
   font-size: 20px;
-  background-color: #f3f4eb;
+  background-color: #ffffff;
 }
 
 #header {
   width: 960px;
-  margin:50px auto 50px auto;
+  height: 70px;
+  margin: 50px auto 0px auto;
+  color: #402817;
+  font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif;
+}
+
+#header #gen {
+  height: 70px;
+  background: url('/img/logo_10gen.png') no-repeat;
+}
+
+#header #mongodb {
+  height: 70px;
+  background: url('/img/logo_mongo.png') no-repeat;
+  position: relative;
+  left: 770px;
+  top: -80px;
+}
+
+#desc {
+  width: 960px;
+  height: 30px;
+  margin: 20px auto 20px auto;
   color: #402817;
   font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif;
 }
 
 #terminal {
   width: 960px;
-  margin:50px auto 50px auto;
+  margin:20px auto 50px auto;
   border: 1px solid black;
-  height: 400px;
+  height: 600px;
   background: black;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 #terminal div.line {

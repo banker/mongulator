@@ -36,4 +36,4 @@ var JavascriptKeywords = ['abstract', 'boolean', 'break', 'byte', 'case', 'catch
 
 var JavascriptClassNames = ['Array', 'String', 'Object']
 
-var MongoKeywords = ['use', 'help', 'it', 'show', 'tutorial', 'next', 'back', 't0', 't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10'];
+var MongoKeywords = ['contest', 'use', 'help', 'it', 'show', 'tutorial', 'next', 'back', 't0', 't1', 't2', 't3', 't4', 't5', 't6', 't7', 't8', 't9', 't10'];

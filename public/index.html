@@ -11,15 +11,19 @@
   </head>
 <body>
   <div id="header">
-    <h2>A Tiny MongoDB Browser Shell (mini tutorial included)</h2>
-    <h2>Just enough to scratch the surface</h2>
+    <p id="gen"></p>
+    <p id="mongodb"></p>
+  </div>
+
+  <div id="desc">
+    <p>10gen is sponsoring...</p>
   </div>
 
   <div id="terminal">
-    <p class="response">MongoDB browser shell version: 0.1.2</p>
+    <p class="response">MongoDB browser shell version: 0.1.3</p>
     <p>connecting to random database</p>
-    <p>type "help" for help</p>
-    <p>type "tutorial" to start the tutorial</p>
+    <p>type "contest" to learn how to enter to win a MongoDB mug or backpack!</p>
+    <p>type "tutorial" to start the MongoDB tutorial</p>
 
   </div>
     <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
@@ -33,9 +37,8 @@
 
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/shell_utils.js"></script>
-    <script type="text/javascript" src="js/lib/query.js"></script>
     <script type="text/javascript" src="js/tokens.js"></script>
-    
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
