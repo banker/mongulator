@@ -7,15 +7,15 @@ configure do
   if ENV['VCAP_SERVICES']
     host = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['hostname']
     port = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['port']
-    username = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['name']
+    DB = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['db']
+    username = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['username']
     password = JSON.parse( ENV['VCAP_SERVICES'] )['mongodb-1.8'].first['credentials']['password']
     CONN = Mongo::Connection.new(host, port)
-    CONN.authenticate(username, password)
+    CONN[DB].authenticate(username, password)
   else
-    CONN = Mongo::Connection.new
+    DB = "vm-app"
+    CONN = Mongo::Connection.new("localhost", 27017)
   end
-
-  DB = 'vm-mongo'
 end
 
 enable :sessions
@@ -34,7 +34,7 @@ end
 
 post '/insert' do
   if params['name'] == 'info'
-    CONN[DB]['info'].insert(JSON.parse(params['doc']))
+    CONN[DB]['info'].insert(JSON.parse(params['doc']).merge(:user_id => user_scope))
   end
 
   coll = scoped_collection(params['name'])
@@ -58,7 +58,7 @@ post '/remove' do
 end
 
 post '/find' do
-  coll   = scoped_collection(params['name'])
+  coll = scoped_collection(params['name'])
   query  = JSON.parse(params['query'])
   fields = JSON.parse(params['fields'])
   fields = nil if fields == {}

@@ -2,6 +2,7 @@ body {
   font-family: Monaco, serif;
   font-size: 20px;
   background-color: #ffffff;
+  width: auto;
 }
 
 #header {
