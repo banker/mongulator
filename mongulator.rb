@@ -11,7 +11,7 @@ end
 enable :sessions
 
 def user_scope
-  session['user_scope'] ||= BSON::ObjectID.new.to_s
+  session['user_scope'] ||= BSON::ObjectId.new.to_s
 end
 
 def scoped_collection(name)
