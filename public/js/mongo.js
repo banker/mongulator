@@ -289,7 +289,7 @@ MongoHandler.prototype = {
 
   _contest: function() {
       return PTAG('10gen is giving away MongoDB mugs and backpacks.') +
-             PTAG('To enter the giveaway, simply save your contact information to ') +
+             PTAG('To enter the giveaway, simply save your contact information to the ') +
              PTAG('\'info\' collection. For example, to save your name and email address, you\'d enter:') +
              PTAG(' ') +
              PTAG('  db.info.save({name: "Meghan", email: "meghan@10gen.com"})') +
@@ -297,7 +297,6 @@ MongoHandler.prototype = {
              PTAG('You can then query the collection to make sure your data was saved:') +
              PTAG(' ') +
              PTAG('  db.info.find()') +
-             PTAG('   {   "_id" : {   "$oid" : "4da31b461d41c8203e000005"   },') +
              PTAG('       "name" : "Meghan",') +
              PTAG('       "email" : "meghan@10gen.com"   }') +
              PTAG(' ') +
