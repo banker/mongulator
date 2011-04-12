@@ -16,7 +16,6 @@ Connection.prototype = {
   },
 
   insert: function(collectionName, doc) {
-    delete doc['_id'];
     $.post(AppBaseURL + 'insert', {name: collectionName, doc: tojson(doc)});
     return 'ok';
   },

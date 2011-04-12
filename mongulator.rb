@@ -39,6 +39,7 @@ post '/insert' do
 
   coll = scoped_collection(params['name'])
   if coll.count < 200
+    puts params['doc']
     coll.insert(JSON.parse(params['doc']))
   end
 end
