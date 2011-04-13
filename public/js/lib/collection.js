@@ -173,7 +173,6 @@ DBCollection.prototype.save = function( obj ){
         throw "can't save a null";
 
     if ( typeof( obj._id ) == "undefined" ){
-        obj._id = new ObjectId();
         return this.insert( obj );
     }
     else {
