@@ -297,8 +297,8 @@ MongoHandler.prototype = {
              PTAG('You can then query the collection to make sure your data was saved:') +
              PTAG(' ') +
              PTAG('  db.info.find()') +
-             PTAG('       "name" : "Meghan",') +
-             PTAG('       "email" : "meghan@10gen.com"   }') +
+             PTAG('       { "name" : "Meghan",') +
+             PTAG('         "email" : "meghan@10gen.com"   }') +
              PTAG(' ') +
              PTAG('Winners will be notified in the coming weeks.');
 
