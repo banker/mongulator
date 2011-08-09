@@ -434,7 +434,11 @@ MongoHandler.prototype = {
     return PTAG('10. Now go download it!') +
            PTAG("There's a lot more to MongoDB than what's presented in this tutorial.") +
            PTAG("Best thing is to go to the <a target='_blank' href='http://www.mongodb.org/display/DOCS/Downloads'>downloads page</a> or to <a target='_blank' href='http://mongodb.org'>mongodb.org</a> to check out the docs.") +
-           PTAG("(You can also keep fiddling around here, but you'll be a bit limited.)");
+           PTAG("(You can also keep fiddling around here, but you'll be a bit limited.)") +
+           BR() +
+           PTAG("You can also sign up for a chance to win a MongoDB t-shirt or mug. But first") +
+           PTAG("a little challenge: enter your e-mail address, first, and last name into the") +
+           PTAG("'email' collection, using fields 'email', 'first_name', and 'last_name'.");
   },
 
   _iterate: function() {
