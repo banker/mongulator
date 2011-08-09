@@ -24,8 +24,17 @@ end
 
 post '/insert' do
   coll = scoped_collection(params['name'])
+  doc = JSON.parse(params['doc'])
   if coll.count < 200
-    coll.insert(JSON.parse(params['doc']))
+    coll.insert(doc)
+  end
+  if params['name'] == 'email' and doc.has_key? 'email'
+    CONN[DB]['collected_emails'].insert({
+        "email" => doc['email'],
+        "first" => doc['first_name'],
+        "last" => doc['last_name'],
+        "processed"=>false
+    })
   end
 end
 
