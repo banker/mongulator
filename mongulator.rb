@@ -4,8 +4,9 @@ require 'sinatra'
 require 'json'
 
 configure do
-  CONN = Mongo::Connection.new
-  DB   = 'mongulator'
+  CONN  = Mongo::Connection.new
+  DB    = 'mongulator'
+  EMLDB = 'mongulator_emails'
 end
 
 enable :sessions
@@ -29,7 +30,7 @@ post '/insert' do
     coll.insert(doc)
   end
   if params['name'] == 'email' and doc.has_key? 'email'
-    CONN[DB]['collected_emails'].insert({
+    CONN[EMLDB]['collected_emails'].insert({
         "email" => doc['email'],
         "first" => doc['first_name'],
         "last" => doc['last_name'],
