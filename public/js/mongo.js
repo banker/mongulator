@@ -403,7 +403,7 @@ MongoHandler.prototype = {
            PTAG("Now create a couple documents like these for updating:") +
            PTAG("  db.users.save({name: 'Johnny', languages: ['ruby', 'c']}); ") +
            PTAG("  db.users.save({name: 'Sue', languages: ['scala', 'lisp']}); ") +
-           PTAG("Make sure they were saved by called db.users.find()") +
+           PTAG("Make sure they were saved by calling db.users.find()") +
            PTAG("Update the first document like so:") +
            PTAG("  db.users.update({name: 'Johnny'}, {name: 'Cash', languages: ['english']}); ");
   },
